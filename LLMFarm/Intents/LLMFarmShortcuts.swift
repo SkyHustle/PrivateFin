@@ -6,7 +6,7 @@ struct LLMFarmShortcutsProvider: AppShortcutsProvider {
         AppShortcut(
             intent: LLMQueryIntent(),
             phrases: [
-                "Ask Local LLM"
+                "Ask ${applicationName}"
             ],
             shortTitle: "Create query to local LLM model",
             systemImageName: "brain.filled.head.profile"
