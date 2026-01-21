@@ -5,8 +5,10 @@
 //
 
 import SwiftUI
+import Inject
 
 struct ChatListView: View {
+    @ObserveInjection var inject
     @EnvironmentObject var fineTuneModel: FineTuneModel
     @EnvironmentObject var aiChatModel: AIChatModel
 
@@ -126,7 +128,7 @@ struct ChatListView: View {
             after_chat_edit = refresh_chat_list
             refresh_chat_list()
         }
-        .navigationTitle("Chats")
+        .navigationTitle("💬 Chats")
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 Menu {
@@ -183,6 +185,7 @@ struct ChatListView: View {
                 #endif
             }
         }
+        .enableInjection()
     }
 }
 

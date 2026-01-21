@@ -25,12 +25,6 @@ struct LLMFarmApp: App {
     @State var after_chat_edit: () -> Void = {}
     @State var tabIndex: Int = 0
     //    var set_res = setSignalHandler()
-    
-    init() {
-        #if DEBUG
-        InjectionIII.setup()
-        #endif
-    }
 
     func close_chat() {
         aiChatModel.stop_predict()

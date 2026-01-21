@@ -5,8 +5,10 @@
 //
 
 import SwiftUI
+import Inject
 
 struct ChatView: View {
+    @ObserveInjection var inject
     @EnvironmentObject var aiChatModel: AIChatModel
     @EnvironmentObject var orientationInfo: OrientationInfo
 
@@ -270,6 +272,7 @@ struct ChatView: View {
             #endif
         }
         .textSelection(.enabled)
+        .enableInjection()
     }
 }
 
