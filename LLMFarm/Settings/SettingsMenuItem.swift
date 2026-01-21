@@ -32,5 +32,10 @@ struct SettingsMenuItem: View {
             }
         }
         .background(Color("color_bg_inverted").opacity(0.05))
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 }

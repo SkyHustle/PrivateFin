@@ -29,7 +29,12 @@ struct indexUpdatePopoverContent: View {
             Text(importStatus).padding()
             ThreeDots()
         }
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 //    .frame(minWidth: 300,minHeight: 200, maxHeight: 200)
 }
 

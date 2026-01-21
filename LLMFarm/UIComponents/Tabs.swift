@@ -33,7 +33,12 @@ struct TabButton: View {
         }
         .border(width: index == targetIndex ? 4 : 0, edges: [.bottom], color: .accentColor)
         .padding(.horizontal, 1)
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 }
 
 #if os(macOS)

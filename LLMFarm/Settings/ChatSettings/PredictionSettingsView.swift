@@ -102,7 +102,12 @@ struct PredictionSettingsView: View {
             #endif
         }
         .padding(.horizontal, 5)
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 }
 
 // #Preview {

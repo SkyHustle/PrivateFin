@@ -14,6 +14,6 @@
 	],
 	"workspace": "/Users/dima/CodeLife/XcodeLife/PrivateFin/LLMFarm.xcodeproj/project.xcworkspace",
 	"build_root": "/Users/dima/Library/Developer/Xcode/DerivedData/LLMFarm-askffiwznoxsgzdzoaxrdztqscya",
-	"scheme": "LLMFarm_Release",
+	"scheme": "LLMFarm",
 	"kind": "xcode"
 }

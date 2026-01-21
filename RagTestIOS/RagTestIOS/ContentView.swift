@@ -140,7 +140,12 @@ struct ContentView: View {
             }
             .padding()
         }
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 
     func BuildIndex() async {
         let start = DispatchTime.now()

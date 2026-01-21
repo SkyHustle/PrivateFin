@@ -88,5 +88,10 @@ struct DownloadButton: View {
         //         status = FileManager.default.fileExists(atPath: fileURL.path) ? "downloaded" : "download"
         //     }
         // }
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 }

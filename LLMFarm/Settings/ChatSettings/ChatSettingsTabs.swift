@@ -49,5 +49,10 @@ struct ChatSettingTabs: View {
         //        .background(colorScheme == .dark ? Color.white.opacity(0.3) : Color.black.opacity(0.3))
         .background(.thinMaterial)
         .clipShape(CShape())
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 }

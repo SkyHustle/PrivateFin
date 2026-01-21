@@ -37,7 +37,12 @@ struct About: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .center)
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 }
 
 // #Preview {

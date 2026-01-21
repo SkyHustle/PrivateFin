@@ -59,5 +59,10 @@ struct SettingsView: View {
             }
         }
         .edgesIgnoringSafeArea(.all)
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 }

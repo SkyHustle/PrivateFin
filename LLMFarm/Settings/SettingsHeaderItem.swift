@@ -35,5 +35,10 @@ struct SettingsHeaderItem: View {
             .padding(.horizontal, 10)
         }
         .padding(.vertical, 20)
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 }

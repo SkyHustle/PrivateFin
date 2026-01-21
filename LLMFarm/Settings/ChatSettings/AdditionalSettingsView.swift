@@ -68,7 +68,12 @@ struct AdditionalSettingsView: View {
         }
         .padding(.horizontal, 5)
         .padding(.top, 8)
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 }
 
 // #Preview {

@@ -100,7 +100,12 @@ struct PromptSettingsView: View {
                     .padding(.top, 8)
             }
         }
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 }
 
 //

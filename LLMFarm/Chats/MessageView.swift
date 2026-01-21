@@ -148,7 +148,12 @@ struct MessageView: View {
                 Spacer()
             }
         }
+        .enableInjection()
     }
+
+    #if DEBUG
+    @ObserveInjection var forceRedraw
+    #endif
 }
 
 // struct MessageView_Previews: PreviewProvider {
