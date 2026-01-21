@@ -7,15 +7,14 @@
 
 import SwiftUI
 
-
 struct About: View {
     let app_version = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
     var body: some View {
-        VStack{
+        VStack {
             GroupBox(label:
-                        Text("About")
+                Text("About")
             ) {
-                HStack{
+                HStack {
                     Image("ava0_48")
                         .foregroundColor(.secondary)
                         .font(.system(size: 40))
@@ -29,7 +28,7 @@ struct About: View {
                     .multilineTextAlignment(.center)
             }
             GroupBox(label:
-                        Text("Help")
+                Text("Help")
             ) {
                 Link("Visit LLM Farm documentation site", destination: URL(string: "https://llmfarm.tech/docs/FAQ")!)
                     .font(.title3)
@@ -37,10 +36,10 @@ struct About: View {
                 //                .foregroundStyle(.)
             }
         }
-            .frame(maxWidth: .infinity,alignment: .center)
+        .frame(maxWidth: .infinity, alignment: .center)
     }
 }
 
-//#Preview {
+// #Preview {
 //    About()
-//}
+// }

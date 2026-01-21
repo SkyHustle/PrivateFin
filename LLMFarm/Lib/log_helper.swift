@@ -6,8 +6,8 @@
 //
 
 import Foundation
-//
 
+//
 
 class OutputListener {
     /// consumes the messages on STDOUT
@@ -18,17 +18,17 @@ class OutputListener {
 
     /// Buffers strings written to stdout
     var contents = ""
-    init(){
+    init() {
         let outPipe = Pipe()
         var outString = "Initial"
         let sema = DispatchSemaphore(value: 0)
         outPipe.fileHandleForReading.readabilityHandler = { fileHandle in
             let data = fileHandle.availableData
-            if data.isEmpty  { // end-of-file condition
+            if data.isEmpty { // end-of-file condition
                 fileHandle.readabilityHandler = nil
                 sema.signal()
             } else {
-                outString += String(data: data,  encoding: .utf8)!
+                outString += String(data: data, encoding: .utf8)!
             }
         }
         print("Starting")
@@ -71,7 +71,7 @@ class OutputListener {
 //    }
 }
 
-//func openConsolePipe() {
+// func openConsolePipe() {
 //    //open a new Pipe to consume the messages on STDOUT and STDERR
 //    inputPipe = Pipe()
 //
@@ -101,9 +101,9 @@ class OutputListener {
 //
 //    //state that you want to be notified of any data coming across the pipe
 //    pipeReadHandle.readInBackgroundAndNotify()
-//}
+// }
 //
-//func handlePipeNotification(notification: Notification) {
+// func handlePipeNotification(notification: Notification) {
 //    //note you have to continuously call this when you get a message
 //    //see this from documentation:
 //    //Note that this method does not cause a continuous stream of notifications to be sent. If you wish to keep getting notified, you’ll also need to call readInBackgroundAndNotify() in your observer method.
@@ -121,4 +121,4 @@ class OutputListener {
 //        //Or if you wanted to send your print statements to the server, then
 //        //you could do this in your notification handler in the app delegate.
 //    }
-//}
+// }

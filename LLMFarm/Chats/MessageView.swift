@@ -3,10 +3,8 @@
 //  Created by guinmoon
 //
 
-
-import SwiftUI
 import MarkdownUI
-
+import SwiftUI
 
 struct MessageView: View {
     var message: Message
@@ -16,7 +14,7 @@ struct MessageView: View {
     private struct SenderView: View {
         var sender: Message.Sender
         var current_model = "LLM"
-        
+
         var body: some View {
             switch sender {
             case .user:
@@ -41,13 +39,13 @@ struct MessageView: View {
         @Binding var status: String?
         var sender: Message.Sender
         @State var showRag = false
-        
+
         var body: some View {
             switch message.state {
             case .none:
                 VStack(alignment: .leading) {
                     ProgressView()
-                    if status != nil{
+                    if status != nil {
                         Text(status!)
                             .font(.footnote)
                     }
@@ -60,24 +58,24 @@ struct MessageView: View {
 
             case .typed:
                 VStack(alignment: .leading) {
-                    if message.header != ""{
+                    if message.header != "" {
                         Text(message.header)
                             .font(.footnote)
                             .foregroundColor(Color.gray)
                             .textSelection(.enabled)
                     }
                     MessageImage(message: message)
-                    if sender == .user_rag{
-                        VStack{
+                    if sender == .user_rag {
+                        VStack {
                             Button(
                                 action: {
                                     showRag = !showRag
                                 },
                                 label: {
-                                    if showRag{
+                                    if showRag {
                                         Text("Hide")
                                             .font(.footnote)
-                                    }else{
+                                    } else {
                                         Text("Show text")
                                             .font(.footnote)
                                     }
@@ -85,11 +83,11 @@ struct MessageView: View {
                             )
                             .buttonStyle(.borderless)
                             //                        .frame(maxWidth:50,maxHeight: 50)
-                            if showRag{
+                            if showRag {
                                 Text(LocalizedStringKey(message.text)).font(.footnote).textSelection(.enabled)
                             }
                         }.textSelection(.enabled)
-                    }else{
+                    } else {
                         Text(LocalizedStringKey(message.text))
                             .textSelection(.enabled)
                     }
@@ -100,10 +98,10 @@ struct MessageView: View {
                     Text(message.text).textSelection(.enabled)
                     ProgressView()
                         .padding(.leading, 3.0)
-                        .frame(maxHeight: .infinity,alignment: .bottom)
+                        .frame(maxHeight: .infinity, alignment: .bottom)
                 }.textSelection(.enabled)
 
-            case .predicted(totalSecond: let totalSecond):
+            case let .predicted(totalSecond: totalSecond):
                 VStack(alignment: .leading) {
                     switch chatStyle {
                     case "DocC":
@@ -115,12 +113,12 @@ struct MessageView: View {
                     default:
                         Text(message.text).textSelection(.enabled).textSelection(.enabled)
                     }
-                    if (message.tokens_count==0){
-                        Text(String(format: "%.2f s, %.2f t/s", totalSecond,message.tok_sec))
+                    if message.tokens_count == 0 {
+                        Text(String(format: "%.2f s, %.2f t/s", totalSecond, message.tok_sec))
                             .font(.footnote)
                             .foregroundColor(Color.gray)
-                    }else{
-                        Text(String(format: "%i t, %.2f s, %.2f t/s",message.tokens_count, totalSecond,message.tok_sec))
+                    } else {
+                        Text(String(format: "%i t, %.2f s, %.2f t/s", message.tokens_count, totalSecond, message.tok_sec))
                             .font(.footnote)
                             .foregroundColor(Color.gray)
                     }
@@ -137,9 +135,9 @@ struct MessageView: View {
 
             VStack(alignment: .leading, spacing: 6.0) {
                 SenderView(sender: message.sender)
-                MessageContentView(message: message, 
+                MessageContentView(message: message,
                                    chatStyle: $chatStyle,
-                                   status:$status,
+                                   status: $status,
                                    sender: message.sender)
                     .padding(12.0)
                     .background(Color.secondary.opacity(0.2))

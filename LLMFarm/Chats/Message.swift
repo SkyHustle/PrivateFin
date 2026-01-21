@@ -26,8 +26,8 @@ struct Message: Identifiable {
     var text: String
     var tok_sec: Double
     var header: String = ""
-    var attachment: String? = nil
-    var attachment_type: String? = nil
+    var attachment: String?
+    var attachment_type: String?
     var is_markdown: Bool = false
     var tokens_count: Int = 0
 }

@@ -19,24 +19,22 @@ public class DistilbertEmbeddingsCPUandGPU: EmbeddingsProtocol {
 
     public init() {
         let modelConfig = MLModelConfiguration()
-        
-#if targetEnvironment(simulator)
-        modelConfig.computeUnits = .cpuOnly
-#elseif os(macOS)
-        modelConfig.computeUnits = .cpuAndGPU
-#else
-        modelConfig.computeUnits = .all
-#endif
-        
-        
+
+        #if targetEnvironment(simulator)
+            modelConfig.computeUnits = .cpuOnly
+        #elseif os(macOS)
+            modelConfig.computeUnits = .cpuAndGPU
+        #else
+            modelConfig.computeUnits = .all
+        #endif
 
         do {
-            self.model = try msmarco_distilbert_base_tas_b_512_single_quantized(configuration: modelConfig)
+            model = try msmarco_distilbert_base_tas_b_512_single_quantized(configuration: modelConfig)
         } catch {
             fatalError("Failed to load the Core ML model. Error: \(error.localizedDescription)")
         }
 
-        self.tokenizer = BertTokenizer()
+        tokenizer = BertTokenizer()
     }
 
     // MARK: - Dense Embeddings
@@ -64,7 +62,7 @@ public class DistilbertEmbeddingsCPUandGPU: EmbeddingsProtocol {
             return nil
         }
 
-        let embeddingsArray: [Float] = (0..<embeddings.count).map { Float(embeddings[$0].floatValue) }
+        let embeddingsArray: [Float] = (0 ..< embeddings.count).map { Float(embeddings[$0].floatValue) }
 
         return embeddingsArray
     }

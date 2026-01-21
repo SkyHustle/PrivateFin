@@ -11,7 +11,6 @@ import SimilaritySearchKitDistilbert
 import SimilaritySearchKitMiniLMAll
 import SimilaritySearchKitMiniLMMultiQA
 
-
 private var currentModel: EmbeddingModelType = .distilbert
 private var comparisonAlgorithm: SimilarityMetricType = .dotproduct
 private var chunkMethod: TextSplitterType = .character
@@ -30,12 +29,12 @@ private var folderTextMetadata: [[String: String]]?
 private var folderTokensCount: Int?
 private var folderCharactersCount: Int?
 private var clock = ContinuousClock()
-private var folderScanTime: Duration = Duration(secondsComponent: 0, attosecondsComponent: 0)
+private var folderScanTime: Duration = .init(secondsComponent: 0, attosecondsComponent: 0)
 private var scanProgress: Int = 0
 private var scanTotal: Int = 100
-private var textSplitTime: Duration = Duration(secondsComponent: 0, attosecondsComponent: 0)
-private var embeddingElapsedTime: Duration = Duration(secondsComponent: 0, attosecondsComponent: 0)
-private var searchElapsedTime: Duration = Duration(secondsComponent: 0, attosecondsComponent: 0)
+private var textSplitTime: Duration = .init(secondsComponent: 0, attosecondsComponent: 0)
+private var embeddingElapsedTime: Duration = .init(secondsComponent: 0, attosecondsComponent: 0)
+private var searchElapsedTime: Duration = .init(secondsComponent: 0, attosecondsComponent: 0)
 private var isLoading: Bool = false
 private var isSearching: Bool = false
 private var progressStage: String = ""
@@ -51,11 +50,10 @@ private var currentSplitter: any TextSplitterProtocol = TokenSplitter(withTokeni
 
 private var similarityIndex: SimilarityIndex?
 
-
-
 public func updateIndexComponents(currentModel: EmbeddingModelType,
-                                   comparisonAlgorithm: SimilarityMetricType,
-                                   chunkMethod: TextSplitterType) {
+                                  comparisonAlgorithm: SimilarityMetricType,
+                                  chunkMethod: TextSplitterType)
+{
     switch currentModel {
     case .distilbert:
         embeddingModel = DistilbertEmbeddings()
@@ -99,18 +97,18 @@ private func fetchFolderContents(url: URL) async {
     var folderContentsToShow: [DiskItem] = []
     let elapsedTime = await clock.measure {
 //        for url in filePickerURLs {
-            progressCurrent += 1
-            let isDirectory = Files.isDirectory(url: url)
-            if isDirectory {
-                folderItem = await files.scanDirectory(url: url)
-                if let folder = folderItem {
-                    folderContentsToShow.append(folder)
-                }
-            } else {
-                if let childItem = await files.scanFile(url: url) {
-                    folderContentsToShow.append(childItem)
-                }
+        progressCurrent += 1
+        let isDirectory = Files.isDirectory(url: url)
+        if isDirectory {
+            folderItem = await files.scanDirectory(url: url)
+            if let folder = folderItem {
+                folderContentsToShow.append(folder)
             }
+        } else {
+            if let childItem = await files.scanFile(url: url) {
+                folderContentsToShow.append(childItem)
+            }
+        }
 //        }
     }
     folderScanTime = elapsedTime
@@ -122,7 +120,7 @@ private func fetchFolderContents(url: URL) async {
 
 func getTokenLength(_ text: String) -> Int {
     // Arbitrary code to get the token length of the given text
-    return BertTokenizer().tokenize(text: text).count
+    BertTokenizer().tokenize(text: text).count
 }
 
 private func splitTextFromFiles(chunkSize: Int, chunkOverlap: Int) async {
@@ -131,7 +129,7 @@ private func splitTextFromFiles(chunkSize: Int, chunkOverlap: Int) async {
     progressCurrent = 0
 
     let elapsedTime = clock.measure {
-        guard let folderContents = folderContents else { return }
+        guard let folderContents else { return }
         let fileInfoArray: [Files.FileTextContents] = Files.extractText(fromDiskItems: folderContents)
 
         // Create an empty array to store the chunked FileTextContents objects
@@ -181,7 +179,7 @@ private func splitTextFromFiles(chunkSize: Int, chunkOverlap: Int) async {
 
         print("Split \(fileInfoArray.count) files into \(chunkTextArray.count) chunks")
 
-        folderTextIds = chunkTextIds.map { $0.uuidString }
+        folderTextIds = chunkTextIds.map(\.uuidString)
         folderTextChunks = chunkTextArray
         folderTextMetadata = chunkTextMetadata
     }
@@ -192,9 +190,9 @@ private func splitTextFromFiles(chunkSize: Int, chunkOverlap: Int) async {
 }
 
 private func generateIndexFromChunks() async {
-    guard let folderTextIds = folderTextIds,
-        let folderTextChunks = folderTextChunks,
-        let folderTextMetadata = folderTextMetadata else { return }
+    guard let folderTextIds,
+          let folderTextChunks,
+          let folderTextMetadata else { return }
 
     isLoading = true
     progressStage = "Vectorizing"
@@ -218,9 +216,9 @@ private func generateIndexFromChunks() async {
     isLoading = false
 }
 
-public func searchIndexWithQuery(query: String, top: Int) async -> [SimilarityIndex.SearchResult]?{
+public func searchIndexWithQuery(query: String, top: Int) async -> [SimilarityIndex.SearchResult]? {
     isSearching = true
-    var searchResults:[SimilarityIndex.SearchResult]?
+    var searchResults: [SimilarityIndex.SearchResult]?
     let elapsedTime = await clock.measure {
         let results = await similarityIndex?.search(query, top: top, metric: distanceMetric)
         searchResults = results
@@ -289,18 +287,17 @@ func exportIndex(_ index: SimilarityIndex, url: URL) {
     }
 }
 
-func saveIndex(url: URL, name: String){
+func saveIndex(url: URL, name: String) {
     guard let index = similarityIndex else { return }
-    do{
+    do {
         let res = try index.saveIndex(toDirectory: url, name: name)
-    }catch{
+    } catch {
         print(error)
     }
 }
 
-func BuildNewIndex(search_url: URL?, chunkSize: Int, chunkOverlap: Int) async{
-    if search_url == nil
-    {
+func BuildNewIndex(search_url: URL?, chunkSize: Int, chunkOverlap: Int) async {
+    if search_url == nil {
         print("empty url")
         return
     }
@@ -310,20 +307,19 @@ func BuildNewIndex(search_url: URL?, chunkSize: Int, chunkOverlap: Int) async{
         await generateIndexFromChunks()
     }
     print("Elapsed generate index: \(elapsedTime)")
-    
 }
 
 func loadExistingIndex(url: URL, name: String) async {
     let index = await SimilarityIndex(model: embeddingModel, metric: distanceMetric)
-    do{
+    do {
         let res = try index.loadIndex(fromDirectory: url, name: name)
         similarityIndex = index
-    }catch{
+    } catch {
         print(error)
     }
 }
 
-func main() async{
+func main() async {
     print("Hello, Search Kit!")
     searchQuery = "The Birth of the Swatch"
 //    await BuildNewIndex()

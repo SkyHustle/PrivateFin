@@ -13,12 +13,9 @@ let maxOutputLength: Int32 = 100
 var totalOutput = 0
 var totalTokensOutput: Int32 = 0
 var sessionTokens: [Int32] = []
-var ai: AI? = nil
+var ai: AI?
 
-
-
-
-func mainCallback(_ str: String, _ time: Double) -> Bool {
+func mainCallback(_ str: String, _: Double) -> Bool {
     print("\(str)", terminator: "")
     totalOutput += str.count
     totalTokensOutput += 1
@@ -68,7 +65,7 @@ func main() {
 //        print(output ?? "")
 //
 //        try ExceptionCather.catchException {
-//            output = try? model.Predict("tell more", mainCallback) 
+//            output = try? model.Predict("tell more", mainCallback)
 //        }
 
         print(output ?? "")

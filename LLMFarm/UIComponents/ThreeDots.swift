@@ -28,12 +28,12 @@ struct ThreeDots: View {
                 .scaleEffect(loading ? 1.5 : 0.5)
                 .animation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true).delay(0.4), value: loading)
         }
-        .onAppear() {
-            self.loading = true
+        .onAppear {
+            loading = true
         }
     }
 }
 
-//#Preview {
+// #Preview {
 //    ThreeDots()
-//}
+// }

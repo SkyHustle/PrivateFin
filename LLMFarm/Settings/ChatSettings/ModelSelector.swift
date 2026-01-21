@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct ModelSelector: View {
-    
-    @Binding var models_previews: [Dictionary<String, String>]
+    @Binding var models_previews: [[String: String]]
     @Binding var model_file_path: String
     @Binding var model_file_url: URL
     @Binding var model_title: String
@@ -15,7 +14,7 @@ struct ModelSelector: View {
     var avalible_lable: String
 
     @State private var isModelImporting: Bool = false
-  
+
     var body: some View {
         HStack {
             Menu {
@@ -26,8 +25,8 @@ struct ModelSelector: View {
                 } label: {
                     Label(import_lable, systemImage: "plus.app")
                 }
-                
-                if !edit_chat_dialog{
+
+                if !edit_chat_dialog {
                     Button {
                         Task {
                             toggleSettings = true
@@ -35,22 +34,21 @@ struct ModelSelector: View {
                     } label: {
                         Label(download_lable, systemImage: "icloud.and.arrow.down")
                     }
-                    
                 }
-                    
+
                 Divider()
-                
+
                 Section(avalible_lable) {
                     ForEach(models_previews, id: \.self) { model in
-                        Button(model["file_name"]!){
+                        Button(model["file_name"]!) {
 //                                            model_file_name = model["file_name"]!
                             model_file_path = model["file_name"]!
-                            model_title = GetFileNameWithoutExt(fileName:model_file_path)
+                            model_title = GetFileNameWithoutExt(fileName: model_file_path)
                         }
                     }
                 }
             } label: {
-                Label(model_file_path == "" ?selection_lable:model_file_path, systemImage: "ellipsis.circle")
+                Label(model_file_path == "" ?selection_lable : model_file_path, systemImage: "ellipsis.circle")
             }
         }
         .fileImporter(
@@ -64,12 +62,12 @@ struct ModelSelector: View {
 //                                model_file_name = selectedFile.lastPathComponent
                 model_file_url = selectedFile
                 //                                    saveBookmark(url: selectedFile)
-                //#if os(iOS) || os(watchOS) || os(tvOS)
+                // #if os(iOS) || os(watchOS) || os(tvOS)
                 model_file_path = selectedFile.lastPathComponent
-                //#else
+                // #else
                 //                                    model_file_path = selectedFile.path
-                //#endif
-                model_title = GetFileNameWithoutExt(fileName:selectedFile.lastPathComponent)
+                // #endif
+                model_title = GetFileNameWithoutExt(fileName: selectedFile.lastPathComponent)
             } catch {
                 // Handle failure.
                 print("Unable to read file contents")
@@ -78,4 +76,3 @@ struct ModelSelector: View {
         }
     }
 }
-
